@@ -19,6 +19,10 @@ app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
+app.get('/api/notes', (req, res) =>{
+  console.info(`${req.method} request received to view notes`);
+  res.json(notes)}
+);
 
 app.post('/api/notes', (req, res) =>{
   console.info(`${req.method} request received to add a note`);
@@ -37,13 +41,25 @@ app.post('/api/notes', (req, res) =>{
       body: newNote,
     };
 
-    const noteString = JSON.stringify(newNote);
+    let noteArray = [];
+    noteArray.push(newNote);
+    console.log(noteArray[0]);
+
+   
+   const noteString = JSON.stringify(noteArray);
+   console.log(noteString);
+
+   
+   
+  //  for(let i = 0; i < noteArray.length; i++)
+  //  noteArray = noteArray.push
+   
 
     fs.appendFile(`./db/db.json`, noteString, (err) =>
       err
         ? console.error(err)
         : console.log(
-            `New npte titled ${newNote.title} has been written to JSON file`
+            `New note titled ${newNote.title} has been written to JSON file`
           )
     );
 
