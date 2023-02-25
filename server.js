@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const notes = require('./db/db.json');
+const uuid = require('./helpers/uuid');
 
 const PORT = 3001;
 
@@ -33,7 +34,8 @@ app.post('/api/notes', (req, res) =>{
   if(title && text){
     const newNote = {
       title,
-      text
+      text,
+      note_id: uuid(),
     }
 
     const response = {
@@ -55,7 +57,7 @@ app.post('/api/notes', (req, res) =>{
   //  noteArray = noteArray.push
    
 
-    fs.appendFile(`./db/db.json`, noteString, (err) =>
+    fs.writeFile(`./db/db.json`, noteString, (err) =>
       err
         ? console.error(err)
         : console.log(
