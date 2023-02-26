@@ -4,6 +4,7 @@ const fs = require('fs');
 let notes = require('./db/db.json');
 const uuid = require('./helpers/uuid');
 
+
 const PORT = 3001;
 
 const app = express();
@@ -21,16 +22,14 @@ app.get('/notes', (req, res) =>
 );
 
 app.get('/api/notes', (req, res) =>{
-  console.info(`${req.method} request received to view notes`);
-  notes = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'));
-  
+  console.info(`${req.method} request received to view notes`);   
   res.json(notes)
-}
-);
+});
 
 app.post('/api/notes', (req, res) =>{
-  console.info(`${req.method} request received to add a note`);
-  // notes = JSON.parse(fs.readFile(`./db/db.json`, 'utf8'));
+  console.info(`${req.method} request received to add a note`); 
+  notes = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'));
+    
   const { title, text } = req.body;
 
 
@@ -46,9 +45,7 @@ app.post('/api/notes', (req, res) =>{
       body: newNote,
     };
 
-    notes.push(newNote);    
- 
-   
+    notes.push(newNote);           
 
   fs.writeFileSync(`./db/db.json`, JSON.stringify(notes), (err) =>
     err
