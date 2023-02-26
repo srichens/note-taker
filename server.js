@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const notes = require('./db/db.json');
+let notes = require('./db/db.json');
 const uuid = require('./helpers/uuid');
 
 const PORT = 3001;
@@ -22,12 +22,15 @@ app.get('/notes', (req, res) =>
 
 app.get('/api/notes', (req, res) =>{
   console.info(`${req.method} request received to view notes`);
-  res.json(notes)}
+  notes = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'));
+  
+  res.json(notes)
+}
 );
 
 app.post('/api/notes', (req, res) =>{
   console.info(`${req.method} request received to add a note`);
-
+  // notes = JSON.parse(fs.readFile(`./db/db.json`, 'utf8'));
   const { title, text } = req.body;
 
 
@@ -35,26 +38,32 @@ app.post('/api/notes', (req, res) =>{
     const newNote = {
       title,
       text,
-      note_id: uuid(),
+      id: uuid(),
     }
 
     const response = {
       status: 'success',
       body: newNote,
     };
+    console.log(newNote);
+    
+    const noteString = JSON.stringify(newNote);
 
-    let noteArray = [];
-    noteArray.push(newNote);
-    console.log(noteArray[0]);
+    console.log(notes);
+
+    // let noteArray = notes.push(newNote);
+ 
 
    
-   const noteString = JSON.stringify(noteArray);
+  //  const noteString = JSON.stringify(noteArray);
    console.log(noteString);
 
    
    
   //  for(let i = 0; i < noteArray.length; i++)
   //  noteArray = noteArray.push
+
+   
    
 
     fs.writeFile(`./db/db.json`, noteString, (err) =>
