@@ -45,34 +45,18 @@ app.post('/api/notes', (req, res) =>{
       status: 'success',
       body: newNote,
     };
-    console.log(newNote);
-    
-    const noteString = JSON.stringify(newNote);
 
-    console.log(notes);
-
-    // let noteArray = notes.push(newNote);
+    notes.push(newNote);    
  
-
-   
-  //  const noteString = JSON.stringify(noteArray);
-   console.log(noteString);
-
-   
-   
-  //  for(let i = 0; i < noteArray.length; i++)
-  //  noteArray = noteArray.push
-
-   
    
 
-    fs.writeFile(`./db/db.json`, noteString, (err) =>
-      err
-        ? console.error(err)
-        : console.log(
-            `New note titled ${newNote.title} has been written to JSON file`
-          )
-    );
+  fs.writeFileSync(`./db/db.json`, JSON.stringify(notes), (err) =>
+    err
+      ? console.error(err)
+      : console.log(
+          `New note titled ${newNote.title} has been written to JSON file`
+        )
+  );
 
     console.log(response);
     res.status(201).json(response);
