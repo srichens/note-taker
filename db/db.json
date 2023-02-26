@@ -28,5 +28,10 @@
         "title": "New note",
         "text": "new",
         "id": "eb25"
+    },
+    {
+        "title": "Go shopping",
+        "text": "shop",
+        "id": "8c12"
     }
 ]
