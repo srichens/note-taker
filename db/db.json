@@ -1,27 +1,27 @@
 [
     {
-        "title": "clean",
-        "text": "clean",
-        "id": "8629"
+        "title": "Go grocery shopping",
+        "text": "Target and Cub",
+        "id": "9957"
     },
     {
-        "title": "groceries",
-        "text": "dn",
-        "id": "b5de"
+        "title": "Bring Lucy to practice",
+        "text": "At the high school",
+        "id": "1559"
     },
     {
-        "title": "Get Lucy",
-        "text": "Lucy",
-        "id": "edcb"
+        "title": "Clean all the bathrooms",
+        "text": "Master, kids, guest, pool, half-bath",
+        "id": "cc03"
     },
     {
-        "title": "Go shopping",
-        "text": "shop",
-        "id": "8c12"
+        "title": "Finish homework",
+        "text": "Express.js note taker app",
+        "id": "acaf"
     },
     {
-        "title": "Go to doctor",
-        "text": "asdf",
-        "id": "d0fe"
+        "title": "Visit Mom",
+        "text": "In the afternoon",
+        "id": "49f8"
     }
 ]
