@@ -35,7 +35,7 @@ notes.delete('/:id', (req, res) =>{
   .then((data) => {     
     parsedNotes = JSON.parse(data);
     const index = parsedNotes.findIndex(item => item.id === deleteNoteID);
-    const deletedNote = parsedNotes.splice(index, 1);   
+    parsedNotes.splice(index, 1);   
     return parsedNotes;        
   })
   .then((parsedNotes) => writeToFile('./db/db.json', parsedNotes)); 
