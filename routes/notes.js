@@ -29,10 +29,23 @@ notes.post('/', (req, res) =>{
 notes.delete('/:id', (req, res) =>{
   console.info(`${req.method} request received to delete a note`);
     
-  const deleteNote = req.params.id;
+  const deleteNoteID = req.params.id;
+  // let parsedNotes;
+  let parsedID;
 
   if (req.params.id){
-    res.json(deleteNote); console.log(deleteNote);
+    console.log(deleteNoteID);
+    readFromFile('./db/db.json')
+    .then((data) => {
+      // parsedID = JSON.parse(deleteNoteID);
+      parsedNotes = JSON.parse(data);
+      const index = parsedNotes.findIndex(item => item.id === deleteNoteID);
+      const deletedNote = parsedNotes.splice(index, 1);
+      console.log(deletedNote);
+      console.log(parsedNotes);
+      // console.log(index);
+
+    }); 
   }
 
   // readAndAppend(deleteNote, './db/db.json');
