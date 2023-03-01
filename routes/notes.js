@@ -1,6 +1,7 @@
 const notes = require('express').Router();
 const { readFromFile, readAndAppend } = require('../helpers/fsUtils');
 const uuid = require('../helpers/uuid');
+const fs = require('fs');
 
 notes.get('/', (req, res) =>{
   console.info(`${req.method} request received to view notes`);
@@ -28,31 +29,30 @@ notes.post('/', (req, res) =>{
 
 notes.delete('/:id', (req, res) =>{
   console.info(`${req.method} request received to delete a note`);
-    
+
+  const writeToFile = (destination, content) =>
+  fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
+    err ? console.error(err) : console.info(`\nData written to ${destination}`)
+  );
+        
   const deleteNoteID = req.params.id;
-  // let parsedNotes;
-  let parsedID;
 
   if (req.params.id){
     console.log(deleteNoteID);
     readFromFile('./db/db.json')
-    .then((data) => {
-      // parsedID = JSON.parse(deleteNoteID);
+    .then((data) => {     
       parsedNotes = JSON.parse(data);
       const index = parsedNotes.findIndex(item => item.id === deleteNoteID);
       const deletedNote = parsedNotes.splice(index, 1);
       console.log(deletedNote);
       console.log(parsedNotes);
-      // console.log(index);
+      writeToFile('./db/db.json', parsedNotes);
 
     }); 
   }
-
-  // readAndAppend(deleteNote, './db/db.json');
-  //   res.json(`Note added successfully 🚀`);
-  // } else {
-  //   res.error('Error in adding note');
-  // }
-});
+  readFromFile('./db/db.json')
+  .then((data) => res.json(JSON.parse(data))
+  ); 
+ });
 
 module.exports = notes;
