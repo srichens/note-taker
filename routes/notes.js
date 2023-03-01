@@ -1,7 +1,6 @@
 const notes = require('express').Router();
-const { readFromFile, readAndAppend } = require('../helpers/fsUtils');
+const { readFromFile, writeToFile, readAndAppend } = require('../helpers/fsUtils');
 const uuid = require('../helpers/uuid');
-const fs = require('fs');
 
 notes.get('/', (req, res) =>{
   console.info(`${req.method} request received to view notes`);
@@ -28,31 +27,21 @@ notes.post('/', (req, res) =>{
 });
 
 notes.delete('/:id', (req, res) =>{
-  console.info(`${req.method} request received to delete a note`);
-
-  const writeToFile = (destination, content) =>
-  fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
-    err ? console.error(err) : console.info(`\nData written to ${destination}`)
-  );
+  console.info(`${req.method} request received to delete a note`); 
         
   const deleteNoteID = req.params.id;
-
-  if (req.params.id){
-    console.log(deleteNoteID);
-    readFromFile('./db/db.json')
-    .then((data) => {     
-      parsedNotes = JSON.parse(data);
-      const index = parsedNotes.findIndex(item => item.id === deleteNoteID);
-      const deletedNote = parsedNotes.splice(index, 1);
-      console.log(deletedNote);
-      console.log(parsedNotes);
-      writeToFile('./db/db.json', parsedNotes);
-
-    }); 
-  }
+ 
   readFromFile('./db/db.json')
-  .then((data) => res.json(JSON.parse(data))
-  ); 
+  .then((data) => {     
+    parsedNotes = JSON.parse(data);
+    const index = parsedNotes.findIndex(item => item.id === deleteNoteID);
+    const deletedNote = parsedNotes.splice(index, 1);   
+    return parsedNotes;        
+  })
+  .then((parsedNotes) => writeToFile('./db/db.json', parsedNotes)); 
+
+  readFromFile('./db/db.json')
+  .then((data) => res.json(JSON.parse(data))); 
  });
 
 module.exports = notes;
